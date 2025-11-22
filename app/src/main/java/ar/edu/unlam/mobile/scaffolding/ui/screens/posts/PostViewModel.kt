@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ar.edu.unlam.mobile.scaffolding.data.remoteconfig.RemoteConfigManager
 import ar.edu.unlam.mobile.scaffolding.domain.model.Gender
 import ar.edu.unlam.mobile.scaffolding.domain.model.Pet
 import ar.edu.unlam.mobile.scaffolding.domain.model.Status
@@ -75,6 +76,27 @@ class PostViewModel
         // Estado para indicar si se está guardando el post
         private val _isSaving = MutableStateFlow(false)
         val isSaving: StateFlow<Boolean> = _isSaving
+
+
+        //FIREBASE REMOTE CONFIG
+        private val _publishButtonEnabled = MutableStateFlow(true)
+        val publishButtonEnabled = _publishButtonEnabled.asStateFlow()
+
+        private val _appTitle = MutableStateFlow("PetFinder") // valor default
+        val appTitle = _appTitle.asStateFlow()
+
+    init {
+        loadRemoteConfig()
+    }
+
+    fun loadRemoteConfig() {
+        RemoteConfigManager.init {
+            _publishButtonEnabled.value = RemoteConfigManager.isPublishedEnabled()
+            _appTitle.value = RemoteConfigManager.getAppTitle()
+        }
+    }
+
+
 
         fun setPostTipo(tipoPublicacion: TipoDePublicacion) {
             _postTipo.value = tipoPublicacion

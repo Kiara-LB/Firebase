@@ -13,6 +13,9 @@ plugins {
     alias(libs.plugins.kotlin.compose.compiler)
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.10"
+    // Agregar el plugin de Gradle de Performance Monitoring
+    id("com.google.firebase.firebase-perf")
+
 }
 
 tasks.withType<KotlinCompile>().configureEach {
@@ -129,6 +132,12 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
+    implementation ("com.google.firebase:firebase-messaging-ktx")
+    implementation ("com.google.firebase:firebase-analytics")
+    implementation ("com.google.firebase:firebase-config-ktx")
+    implementation ("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-perf-ktx")
+
 
     // Google Maps y Fused Location
     implementation("com.google.android.gms:play-services-maps:18.2.0")

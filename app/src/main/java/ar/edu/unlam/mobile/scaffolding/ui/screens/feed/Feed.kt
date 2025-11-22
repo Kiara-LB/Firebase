@@ -79,6 +79,11 @@ import ar.edu.unlam.mobile.scaffolding.ui.theme.ColorOne
 import ar.edu.unlam.mobile.scaffolding.ui.theme.ColorTwo
 import ar.edu.unlam.mobile.scaffolding.ui.theme.PetFinderFont
 import ar.edu.unlam.mobile.scaffolding.ui.theme.SoftGray
+import com.google.firebase.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
+import com.google.firebase.remoteconfig.remoteConfig
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,6 +95,8 @@ fun FeedScreen(
     var showSheet by remember { mutableStateOf(false) }
     val status by postViewModel.statusFilter.collectAsState()
     val pets by postViewModel.filteredPets.collectAsState()
+    val publishButtonEnabled by postViewModel.publishButtonEnabled.collectAsState()
+    val appTitle by postViewModel.appTitle.collectAsState()
 
     Box(
         modifier =
@@ -109,6 +116,7 @@ fun FeedScreen(
                 Modifier
                     .align(Alignment.TopCenter)
                     .padding(top = 15.dp),
+            title = appTitle
         )
 
         Column(
@@ -136,15 +144,16 @@ fun FeedScreen(
                 },
             )
         }
-
-        PublishButton(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 75.dp, end = 24.dp),
-            navController = navController,
-            viewModel = postViewModel,
-        )
+        if (publishButtonEnabled) {
+            PublishButton(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(bottom = 75.dp, end = 24.dp),
+                navController = navController,
+                viewModel = postViewModel,
+            )
+        }
     }
 
     if (showSheet) {
@@ -161,6 +170,7 @@ fun FeedScreen(
         }
     }
 }
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -458,9 +468,9 @@ fun PerdidosEncontradosButtons(
 }
 
 @Composable
-fun AppName(modifier: Modifier = Modifier) {
+fun AppName(modifier: Modifier = Modifier, title: String) {
     Text(
-        text = "PetFinder",
+        text = title,
         color = ColorTwo,
         fontFamily = PetFinderFont,
         fontWeight = FontWeight.ExtraBold,
