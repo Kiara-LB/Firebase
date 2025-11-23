@@ -11,7 +11,13 @@ plugins {
     alias(libs.plugins.kover)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.kotlin.compose.compiler)
+
+    // Google Services plugin
     id("com.google.gms.google-services")
+
+    // Crashlytics plugin
+    id("com.google.firebase.crashlytics")
+
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.10"
 }
 
@@ -129,6 +135,10 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
+
+    // Crashlytics + Analytics
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
 
     // Google Maps y Fused Location
     implementation("com.google.android.gms:play-services-maps:18.2.0")
