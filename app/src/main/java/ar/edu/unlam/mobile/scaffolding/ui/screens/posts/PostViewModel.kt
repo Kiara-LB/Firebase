@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ar.edu.unlam.mobile.scaffolding.analytics.AnalyticsManager
 import ar.edu.unlam.mobile.scaffolding.domain.model.Gender
 import ar.edu.unlam.mobile.scaffolding.domain.model.Pet
 import ar.edu.unlam.mobile.scaffolding.domain.model.Status
@@ -14,7 +15,7 @@ import ar.edu.unlam.mobile.scaffolding.domain.repository.PetsRepository
 import ar.edu.unlam.mobile.scaffolding.domain.repository.UserRepository
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
+//import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.UUID
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -193,6 +195,11 @@ class PostViewModel
                     val petId = petsRepository.savePet(finalPet)
 
                     userRepository.addPostToUser(user.id, petId)
+
+                   //El post se guarda con exito,
+                    // Analytics  llama a la función logPostCreated
+                    AnalyticsManager.logPostCreated()
+
 
                     onSuccessMessage("Mascota registrada con éxito")
                 } catch (e: Exception) {
