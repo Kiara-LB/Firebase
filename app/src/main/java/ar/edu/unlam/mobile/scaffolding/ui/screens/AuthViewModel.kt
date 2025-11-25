@@ -3,6 +3,7 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ar.edu.unlam.mobile.scaffolding.analytics.AnalyticsManager
 import ar.edu.unlam.mobile.scaffolding.domain.model.User
 import ar.edu.unlam.mobile.scaffolding.domain.repository.UserRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -73,6 +74,14 @@ class LoginViewModel
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val user = auth.currentUser
+
+                        // Llama a Analytics directamente con el ID del usuario.
+                        // El '?' se asegura de que solo se ejecute si 'user.uid' no es nulo.
+                       //Si user.uid tiene un valor (no es nulo), se ejecuta el bloque de código entre llaves {}.
+                        user?.uid?.let { userId ->
+                            AnalyticsManager.logLoginEvent(userId)
+                        }
+
                         Log.d("Auth", "User after login: ${user?.uid}")
                         _loginResult.value = true
                     } else {

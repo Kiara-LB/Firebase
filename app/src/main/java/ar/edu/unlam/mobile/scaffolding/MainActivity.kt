@@ -23,6 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import ar.edu.unlam.mobile.scaffolding.analytics.AnalyticsManager
 import ar.edu.unlam.mobile.scaffolding.ui.components.BottomBar
 import ar.edu.unlam.mobile.scaffolding.ui.screens.LoginScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.RegisterScreen
@@ -52,6 +53,10 @@ class MainActivity :
         installSplashScreen()
         FirebaseApp.initializeApp(this)
         super.onCreate(savedInstanceState)
+
+        //Inicializa AnalyticsManager
+        AnalyticsManager.init(this)
+
         setContent {
             StatusBar()
             ScaffoldingV2Theme {

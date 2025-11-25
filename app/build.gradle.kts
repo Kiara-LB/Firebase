@@ -10,18 +10,10 @@ plugins {
     alias(libs.plugins.daggerHiltAndroid)
     alias(libs.plugins.kover)
     alias(libs.plugins.ktlint)
-    alias(libs.plugins.kotlin.compose.compiler)
     id("com.google.gms.google-services")
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
-        languageVersion.set(KotlinVersion.KOTLIN_2_1)
-        apiVersion.set(KotlinVersion.KOTLIN_2_1)
-    }
-}
 
 android {
     namespace = "ar.edu.unlam.mobile.scaffolding"
@@ -74,6 +66,11 @@ android {
         compose = true
         buildConfig = true
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.8"
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -96,12 +93,14 @@ dependencies {
     implementation(libs.accompanist.systemuicontroller)
 
     // 👇 Dependencia directa para ui-text
-    implementation("androidx.compose.ui:ui-text:1.7.0")
+    implementation(libs.androidx.runner)
+    implementation(libs.play.services.measurement.api)
 
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.22"))
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
@@ -129,13 +128,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
-
-    // Google Maps y Fused Location
-    implementation("com.google.android.gms:play-services-maps:18.2.0")
-    implementation("com.google.android.gms:play-services-location:17.0.0")
-
-    // Maps Compose
-    implementation("com.google.maps.android:maps-compose:6.1.0")
+    implementation(libs.firebase.analytics.ktx)
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
