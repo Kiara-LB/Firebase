@@ -10,8 +10,15 @@ plugins {
     alias(libs.plugins.daggerHiltAndroid)
     alias(libs.plugins.kover)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.kotlin.compose.compiler)
+
+    // Google Services plugin
     id("com.google.gms.google-services")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
+
+    // Crashlytics plugin
+    id("com.google.firebase.crashlytics")
+
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.10"
 }
 
 
@@ -128,7 +135,17 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
-    implementation(libs.firebase.analytics.ktx)
+
+    // Crashlytics + Analytics
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
+
+    // Google Maps y Fused Location
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-location:17.0.0")
+
+    // Maps Compose
+    implementation("com.google.maps.android:maps-compose:6.1.0")
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
